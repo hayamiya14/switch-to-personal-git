@@ -1,39 +1,41 @@
-## 概要
+# Switch-ToPersonalGit
 
-Git リポジトリを特定のアカウントに切り替えるスクリプトです。
+## Overview
 
-## インストール
+This PowerShell script switches the local Git profile to a personal account.
 
-1. **スクリプトの配置**
-   `Switch-ToPersonalGit` を任意の `.ps1` ファイルに保存するか、プロファイル (`$PROFILE`) に直接追加してください。
+## Installation
 
-2. **.env の作成**
-   スクリプトと同じフォルダーに次の形式で `.env` を作成してください。
+1. **Place the Script**
+   Save the `Switch-ToPersonalGit` function in a `.ps1` file of your choice, or add it directly to your PowerShell profile (`$PROFILE`).
+
+2. **Create a `.env` File**
+   Create a `.env` file in the same directory as the script, with the following format:
 
    ```env
-   # コメント行は無視されます
+   # Lines starting with `#` are treated as comments
    GIT_NAME=Your Name
    GIT_EMAIL=your.name@example.com
    ```
 
-## 使い方
+## Usage
 
 ```powershell
-# リポジトリのルートで実行
-Switch-ToPersonalGit        # もしくは 'spgit'
+# Run this from the root directory of a Git repository
+Switch-ToPersonalGit        # or use the alias 'spgit'
 ```
 
-実行に成功すると、以下のような情報メッセージが表示されます。
+If successful, you'll see a confirmation message like the following:
 
 ```text
 ✅ Local Git profile set: Your Name <your.name@example.com>
 ```
 
-## エラー例
+## Error Cases
 
-| 状況             | メッセージ                               | 解決策                   |
-| -------------- | ----------------------------------- | --------------------- |
-| Git 未インストール    | `git command not found`             | Git をインストールし、PATH を通す |
-| `.git` フォルダーなし | `Not inside a Git repository`       | リポジトリ直下で実行する          |
-| `.env` 不在      | `.env file not found`               | `.env` を作成する          |
-| 変数不足           | `GIT_NAME or GIT_EMAIL not defined` | `.env` に両方定義する        |
+| Situation               | Message                             | Solution                                    |
+| ----------------------- | ----------------------------------- | ------------------------------------------- |
+| Git is not installed    | `git command not found`             | Install Git and ensure it's in your PATH    |
+| Not in a Git repository | `Not inside a Git repository`       | Run the script from a Git project root      |
+| `.env` file is missing  | `.env file not found`               | Create the `.env` file                      |
+| Variables not defined   | `GIT_NAME or GIT_EMAIL not defined` | Ensure both variables are defined in `.env` |
