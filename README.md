@@ -7,9 +7,18 @@ This PowerShell script switches the local Git profile to a personal account.
 ## Installation
 
 1. **Place the Script**
-   Save the `Switch-ToPersonalGit` function in a `.ps1` file of your choice, or add it directly to your PowerShell profile (`$PROFILE`).
 
-2. **Create a `.env` File**
+   - Save the `Switch-ToPersonalGit.psm1` file in a directory of your choice.
+   - Optionally, you can install it as a module by placing both `Switch-ToPersonalGit.psm1` and `Switch-ToPersonalGit.psd1` under a folder named `Switch-ToPersonalGit` in one of your PowerShell module paths (e.g., `C:\Program Files\WindowsPowerShell\Modules\Switch-ToPersonalGit\`).
+
+2. **Import the Module**
+
+   ```powershell
+   Import-Module Switch-ToPersonalGit
+   ```
+
+3. **Create a `.env` File**
+
    Create a `.env` file in the same directory as the script, with the following format:
 
    ```env
@@ -18,17 +27,31 @@ This PowerShell script switches the local Git profile to a personal account.
    GIT_EMAIL=your.name@example.com
    ```
 
+## Parameters
+
+- `EnvFile <string>`
+  Path to the .env file. Defaults to the .env file located in the module directory.
+
+- `Check`
+  Compares the values in .env with the current local Git config (user.name and user.email).
+
+  - If all match, displays a success message.
+  - If they differ, shows the differences without modifying Git config.
+
 ## Usage
 
 ```powershell
-# Run this from the root directory of a Git repository
-Switch-ToPersonalGit        # or use the alias 'spgit'
-```
+# 1. Switch local Git profile to values in .env (default behavior)
+Switch-ToPersonalGit
 
-If successful, you'll see a confirmation message like the following:
+# 2. Run in "check" mode (just compare, do not apply)
+Switch-ToPersonalGit -Check
 
-```text
-✅ Local Git profile set: Your Name <your.name@example.com>
+# 3. Use a custom path for .env
+Switch-ToPersonalGit -EnvFile 'C:\path\to\project\.env'
+
+# 4. Combine both parameters if you want to compare against a custom .env
+Switch-ToPersonalGit -EnvFile 'C:\path\to\project\.env' -Check
 ```
 
 ## Error Cases
