@@ -1,29 +1,29 @@
 ﻿<#
 .SYNOPSIS
-    Switch Git local user profile based on a .env file.
+Switch Git local user profile based on a .env file.
 
 .DESCRIPTION
-    Loads GIT_NAME and GIT_EMAIL from a .env file and sets the local Git config.
-    With -Check switch, compares the .env values with current Git settings.
+Loads GIT_NAME and GIT_EMAIL from a .env file and sets the local Git config.
+With -Check switch, compares the .env values with current Git settings.
 
 .PARAMETER EnvFile
-    Path to the .env file containing GIT_NAME and GIT_EMAIL.
-    Default: the .env file in the module folder.
+Path to the .env file containing GIT_NAME and GIT_EMAIL.
+Default: the .env file in the module folder.
 
 .PARAMETER Check
-    Compare values in .env with current local Git config instead of applying them.
+Compare values in .env with current local Git config instead of applying them.
 
 .EXAMPLE
-    Switch-ToPersonalGit
-    # .env の内容を元に user.name / user.email を設定
+Switch-ToPersonalGit
+# Set user.name and user.email based on .env contents
 
 .EXAMPLE
-    Switch-ToPersonalGit -Check
-    # .env と現在の git config を比較して結果を表示
+Switch-ToPersonalGit -Check
+# Compare .env with current git config and display results
 
 .EXAMPLE
-    Switch-ToPersonalGit -EnvFile 'C:\path\to\.env'
-    # カスタムパスの .env を使う
+Switch-ToPersonalGit -EnvFile 'C:\path\to\.env'
+# Use a custom path for .env
 #>
 function Switch-ToPersonalGit {
     [Alias('spgit')]
@@ -49,9 +49,9 @@ function Switch-ToPersonalGit {
 
     #--- load .env -------------------------------------------------------------
     $envData = Get-Content $EnvFile -Raw |
-               Select-String -NotMatch '^\s*#' |
-               ConvertFrom-StringData
-    $gitName  = $envData['GIT_NAME']
+    Select-String -NotMatch '^\s*#' |
+    ConvertFrom-StringData
+    $gitName = $envData['GIT_NAME']
     $gitEmail = $envData['GIT_EMAIL']
     if (-not $gitName -or -not $gitEmail) {
         Write-Error "GIT_NAME or GIT_EMAIL not defined in .env"
@@ -60,12 +60,13 @@ function Switch-ToPersonalGit {
 
     if ($Check) {
         #--- compare mode -------------------------------------------------------
-        $currentName  = git config --local user.name
+        $currentName = git config --local user.name
         $currentEmail = git config --local user.email
 
         if ($currentName -eq $gitName -and $currentEmail -eq $gitEmail) {
             Write-Host "✅ Git local config matches .env: $currentName <$currentEmail>"
-        } else {
+        }
+        else {
             Write-Warning "⚠️ Git local config differs from .env"
             Write-Host "  .env   : $gitName <$gitEmail>"
             Write-Host "  current: $currentName <$currentEmail>"
