@@ -38,11 +38,11 @@ function Switch-ToPersonalGit {
         Write-Error 'git command not found. Please install Git and retry.'
         return
     }
-    if (-not (Test-Path -Path (Join-Path (Get-Location) '.git'))) {
+    if (-not (Test-Path -LiteralPath (Join-Path (Get-Location) '.git'))) {
         Write-Error 'Not inside a Git repository (no .git folder found).'
         return
     }
-    if (-not (Test-Path -Path $EnvFile)) {
+    if (-not (Test-Path -LiteralPath $EnvFile)) {
         Write-Error ".env file not found at path: $EnvFile"
         return
     }
@@ -51,8 +51,10 @@ function Switch-ToPersonalGit {
     $envData = Get-Content $EnvFile -Raw |
     Select-String -NotMatch '^\s*#' |
     ConvertFrom-StringData
+
     $gitName = $envData['GIT_NAME']
     $gitEmail = $envData['GIT_EMAIL']
+
     if (-not $gitName -or -not $gitEmail) {
         Write-Error "GIT_NAME or GIT_EMAIL not defined in .env"
         return
