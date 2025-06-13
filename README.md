@@ -6,20 +6,9 @@ This PowerShell script switches the local Git profile to a personal account.
 
 ## Installation
 
-1. **Place the Script**
+1. Clone this repository into the `$env:PSModulePath` directory.
 
-   - Save the `Switch-ToPersonalGit.psm1` file in a directory of your choice.
-   - Optionally, you can install it as a module by placing both `Switch-ToPersonalGit.psm1` and `Switch-ToPersonalGit.psd1` under a folder named `Switch-ToPersonalGit` in one of your PowerShell module paths (e.g., `C:\Program Files\WindowsPowerShell\Modules\Switch-ToPersonalGit\`).
-
-2. **Import the Module**
-
-   ```powershell
-   Import-Module Switch-ToPersonalGit
-   ```
-
-3. **Create a `.env` File**
-
-   Create a `.env` file in the same directory as the script, with the following format:
+2. Create a .env file in the same directory as the psm1 file, with the following format:
 
    ```env
    # Lines starting with `#` are treated as comments
